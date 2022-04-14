@@ -91,6 +91,11 @@ export default {
           title: "Brands",
           to: "/brands",
         },
+        {
+          icon: "mdi-t-shirt-crew-outline",
+          title: "Garments",
+          to: "/garments",
+        },
       ],
       miniVariant: false,
       right: true,
