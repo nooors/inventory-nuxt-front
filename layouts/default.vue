@@ -96,6 +96,11 @@ export default {
           title: "Garments",
           to: "/garments",
         },
+        {
+          icon: "mdi-engine",
+          title: "Input_test",
+          to: "/inputTest",
+        },
       ],
       miniVariant: false,
       right: true,
