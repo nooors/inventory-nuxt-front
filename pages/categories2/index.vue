@@ -5,7 +5,7 @@
     </v-row>
     <v-row>
       <v-col class="d-flex justify-end">
-        <v-btn color="success" @click.stop="openModal('new')">add</v-btn>
+        <v-btn color="success" @click.stop="update">add</v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -37,31 +37,22 @@
                   {{ value }}
                 </td>
                 <td class="text-center">
-                  <v-btn color="info" @click.stop="openModal(category)"
+                  <v-btn
+                    color="info"
+                    :to="{
+                      name: 'categories2-update',
+                      params: { category },
+                    }"
+                    nuxt
                     >update</v-btn
                   >
 
-                  <v-btn color="error" @click.stop="destroy(category)"
-                    >delete</v-btn
-                  >
+                  <v-btn color="error">delete</v-btn>
                 </td>
               </tr>
             </tbody>
           </template>
         </v-simple-table>
-        <modal-form
-          @close="modal = false"
-          @save="save"
-          :cardTitle="cardTitle"
-          :itemUpdate="objectToModal"
-          :dialogForm="modal"
-        ></modal-form>
-        <modal-confirm
-          :dialogConfirm="dialogConfirm"
-          @close="dialogConfirm = false"
-          :cardTitle="cardTitle"
-          :objectDelete="objectToModal"
-        ></modal-confirm>
       </v-col>
     </v-row>
   </v-container>
@@ -76,12 +67,10 @@ export default {
   data() {
     return {
       categories: [],
-      objectToModal: {},
-      dialogDelete: false,
+      dialogFormParent: [],
       cardTitle: "Category",
-      dialogConfirm: false,
+      dataForm: [],
       modal: false,
-      confirm: false,
     };
   },
   async fetch() {
@@ -93,35 +82,34 @@ export default {
       this.categories = this.$store.getters["categories/getCategories"];
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      for (let i = 0; i < this.categories.length; i++) {
+        this.dialogFormParent.push(false);
+      }
+    });
+  },
 
   methods: {
     update(category) {
-      alert(`${category.category}`);
+      this.$router.push("categories2/update");
     },
-    destroy(category) {
-      this.dialogConfirm = true;
-      this.objecToModal = category;
-      this.confirm
-        ? this.$store.dispatch("categories/delete", objectModal.id)
-        : false;
+    destroy() {
+      alert("destroy");
     },
     save() {
       this.modal = false;
     },
-
-    openModal(category) {
-      console.log(category);
-      category === "new"
-        ? (this.objectToModal = {
-            id: "",
-            name: "",
-            image: "",
-          })
-        : (this.objectToModal = category);
-      console.log(this.objecToModal);
-
+    input(value) {
+      this.dataForm = value;
+    },
+    openModal(index) {
       this.modal = true;
     },
+  },
+  transitions: {
+    name: "home",
+    mode: "out-in",
   },
 
   // watch: {

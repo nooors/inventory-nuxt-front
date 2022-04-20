@@ -6,13 +6,14 @@
       </v-card-title>
       <v-card-text>
         <v-container>
-          <v-row v-for="(value, name) in itemUpdate" :key="name">
+          <v-row v-for="(value, key) in itemUpdate" :key="key">
             <v-col>
               <v-text-field
                 :value="value"
                 :input="input"
-                :label="name"
-                v-if="name !== 'id'"
+                :label="key"
+                v-if="key !== 'id'"
+                v-model="inputModel[key]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -37,19 +38,26 @@ export default {
   props: ["dialogForm", "cardTitle", "itemUpdate"],
   data() {
     return {
-      index: -1,
-      inputValue: [],
+      inputModel: null,
+      create: false,
     };
   },
+  watch: {
+    itemUpdate: function () {
+      this.inputModel = { ...this.itemUpdate };
+      this.inputModel.id === "" ? (this.create = true) : (this.create = false);
+    },
+  },
+
   methods: {
     close() {
       this.$emit("close");
     },
     save() {
-      this.$emit("save");
-    },
-    input(event) {
-      this.$emit("input", event.target.value);
+      this.create
+        ? this.$store.dispatch("categories/new", this.inputModel)
+        : this.$store.dispatch("categories/update", this.inputModel);
+      this.$emit("close");
     },
   },
 };

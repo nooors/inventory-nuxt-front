@@ -87,6 +87,11 @@ export default {
           to: "/categories",
         },
         {
+          icon: "mdi-shape",
+          title: "Categories2",
+          to: "/categories2",
+        },
+        {
           icon: "mdi-watermark",
           title: "Brands",
           to: "/brands",
