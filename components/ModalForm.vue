@@ -10,7 +10,6 @@
             <v-col>
               <v-text-field
                 :value="value"
-                :input="input"
                 :label="key"
                 v-if="key !== 'id'"
                 v-model="inputModel[key]"

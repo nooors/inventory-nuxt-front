@@ -41,7 +41,7 @@
                     >update</v-btn
                   >
 
-                  <v-btn color="error" @click.stop="destroy(category)"
+                  <v-btn color="error" @click.stop="openConfirm(category)"
                     >delete</v-btn
                   >
                 </td>
@@ -57,10 +57,11 @@
           :dialogForm="modal"
         ></modal-form>
         <modal-confirm
-          :dialogConfirm="dialogConfirm"
-          @close="dialogConfirm = false"
+          :dialogConfirm="dialogDestroy"
+          @close="dialogDestroy = false"
           :cardTitle="cardTitle"
           :objectDelete="objectToModal"
+          @destroy="deleteCategory"
         ></modal-confirm>
       </v-col>
     </v-row>
@@ -77,7 +78,7 @@ export default {
     return {
       categories: [],
       objectToModal: {},
-      dialogDelete: false,
+      dialogDestroy: false,
       cardTitle: "Category",
       dialogConfirm: false,
       modal: false,
@@ -98,15 +99,16 @@ export default {
     update(category) {
       alert(`${category.category}`);
     },
-    destroy(category) {
-      this.dialogConfirm = true;
-      this.objecToModal = category;
-      this.confirm
-        ? this.$store.dispatch("categories/delete", objectModal.id)
-        : false;
-    },
     save() {
       this.modal = false;
+    },
+    deleteCategory() {
+      this.$store.dispatch("categories/destroy", this.objectToModal.id);
+      this.dialogDestroy = false;
+    },
+    openConfirm(category) {
+      this.objectToModal = category;
+      this.dialogDestroy = true;
     },
 
     openModal(category) {

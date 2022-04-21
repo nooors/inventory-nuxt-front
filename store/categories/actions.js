@@ -36,4 +36,11 @@ export default {
       dispatch("getAll");
     } catch (e) {}
   },
+  async destroy({ dispatch }, id) {
+    try {
+      const category = await this.$axios.$delete(`${API}category/${id}`);
+    } catch (e) {
+      console.log(e);
+    }
+  },
 };
