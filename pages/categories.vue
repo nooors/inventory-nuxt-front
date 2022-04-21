@@ -55,6 +55,8 @@
           :cardTitle="cardTitle"
           :itemUpdate="objectToModal"
           :dialogForm="modal"
+          :dispatchNew="newRequest"
+          :dispatchUpdate="updateRequest"
         ></modal-form>
         <modal-confirm
           :dialogConfirm="dialogDestroy"
@@ -83,6 +85,8 @@ export default {
       dialogConfirm: false,
       modal: false,
       confirm: false,
+      newRequest: "categories/new",
+      dispatchRequest: "categories/update",
     };
   },
   async fetch() {
@@ -125,12 +129,6 @@ export default {
       this.modal = true;
     },
   },
-
-  // watch: {
-  //   properties() {
-  //     console.log(this.properties);
-  //   },
-  // },
 };
 </script>
 

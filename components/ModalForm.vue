@@ -32,9 +32,20 @@
 </template>
 
 <script>
+// Props:
+// dialogForm opens and closes the v-dialog component
+// cardTitle sets the title
+// itemUpdate receives the object in wich iterate
+// dispatchNew and dispatchUpdate set the action of the store wich request to the API
 export default {
   name: "ModalForm",
-  props: ["dialogForm", "cardTitle", "itemUpdate"],
+  props: [
+    "dialogForm",
+    "cardTitle",
+    "itemUpdate",
+    "dispatchNew",
+    "dispatchUpdate",
+  ],
   data() {
     return {
       inputModel: null,
@@ -54,8 +65,8 @@ export default {
     },
     save() {
       this.create
-        ? this.$store.dispatch("categories/new", this.inputModel)
-        : this.$store.dispatch("categories/update", this.inputModel);
+        ? this.$store.dispatch(this.dispatchNew, this.inputModel)
+        : this.$store.dispatch(this.dispatchUpdate, this.inputModel);
       this.$emit("close");
     },
   },
