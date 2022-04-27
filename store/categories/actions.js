@@ -34,11 +34,14 @@ export default {
         }
       );
       dispatch("getAll");
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   },
   async destroy({ dispatch }, id) {
     try {
       const category = await this.$axios.$delete(`${API}category/${id}`);
+      dispatch("getAll");
     } catch (e) {
       console.log(e);
     }

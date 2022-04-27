@@ -26,10 +26,10 @@ export default {
       console.log(e);
     }
   },
-  async destroy({ commit }, id) {
+  async destroy({ dispatch }, id) {
     try {
       const brand = await this.$axios.$delete(`${API}/brands/${id}`);
-      dispatch(getAll);
+      dispatch("getAll");
     } catch (e) {
       console.log(e);
     }

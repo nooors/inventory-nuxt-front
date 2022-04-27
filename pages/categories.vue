@@ -10,7 +10,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-simple-table>
+        <v-simple-table v-if="categories.length > 0">
           <template v-slot:default>
             <thead>
               <tr>
@@ -78,7 +78,6 @@ export default {
   layout: "default",
   data() {
     return {
-      categories: [],
       objectToModal: {},
       dialogDestroy: false,
       cardTitle: "Category",
@@ -86,17 +85,21 @@ export default {
       modal: false,
       confirm: false,
       newRequest: "categories/new",
-      dispatchRequest: "categories/update",
+      updateRequest: "categories/update",
     };
   },
   async fetch() {
     await this.$store.dispatch("categories/getAll");
-    if (
-      this.$store.getters["categories/getCategories"] !== null &&
-      this.$store.getters["categories/getCategories"] !== undefined
-    ) {
-      this.categories = this.$store.getters["categories/getCategories"];
-    }
+  },
+  computed: {
+    categories() {
+      if (
+        this.$store.getters["categories/getCategories"] !== null &&
+        this.$store.getters["categories/getCategories"] !== undefined
+      ) {
+        return this.$store.getters["categories/getCategories"];
+      }
+    },
   },
 
   methods: {
@@ -108,6 +111,7 @@ export default {
     },
     deleteCategory() {
       this.$store.dispatch("categories/destroy", this.objectToModal.id);
+
       this.dialogDestroy = false;
     },
     openConfirm(category) {
